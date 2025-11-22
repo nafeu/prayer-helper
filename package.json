@@ -1,0 +1,22 @@
+{
+  "name": "prayer-helper",
+  "version": "1.0.0",
+  "description": "A simple HTML/CSS/JS mobile-first web app to help Muslims perform proper prayer rituals",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && echo 'Build complete. Open index.html in your browser.'"
+  },
+  "keywords": [
+    "prayer",
+    "islam",
+    "salat",
+    "muslim"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
+

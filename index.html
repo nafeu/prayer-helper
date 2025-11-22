@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Helper - Your Guide to Salat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -20px -20px 20px -20px;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 16px;
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background-color: #d0d0d0;
+        }
+
+        .tab-button.active {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin: 25px 0 15px 0;
+            font-size: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            color: #555;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+        }
+
+        p {
+            margin: 12px 0;
+            line-height: 1.8;
+        }
+
+        strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin: 8px 0;
+            line-height: 1.7;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 25px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            overflow-x: auto;
+            display: block;
+        }
+
+        thead {
+            background-color: #667eea;
+            color: white;
+        }
+
+        th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .step-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', 'Arabic Typesetting', 'Traditional Arabic', serif;
+            font-size: 20px;
+            direction: rtl;
+            text-align: right;
+            margin: 10px 0;
+            line-height: 2;
+            color: #333;
+        }
+
+        .transliteration {
+            font-style: italic;
+            color: #666;
+            margin: 8px 0;
+        }
+
+        .translation {
+            color: #555;
+            margin: 8px 0;
+        }
+
+        .why-section {
+            background-color: #e8f4f8;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 3px solid #4a90e2;
+        }
+
+        .why-section strong {
+            color: #4a90e2;
+        }
+
+        .quiz-question {
+            background-color: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ffa500;
+        }
+
+        .quiz-answer {
+            list-style: none;
+            padding: 10px;
+            margin: 8px 0;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-answer:hover {
+            background-color: #e8e8e8;
+        }
+
+        .quiz-answer.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 3px solid #28a745;
+        }
+
+        .explanation {
+            background-color: #e8f5e9;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 3px solid #4caf50;
+            font-size: 14px;
+        }
+
+        .explanation strong {
+            color: #2e7d32;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            .tab-button {
+                min-width: 100px;
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px 6px;
+            }
+
+            .arabic-text {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🕌 Prayer Helper</h1>
+            <p>Your Guide to Performing Salat</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="how-to-pray">How To Pray</button>
+            <button class="tab-button" data-tab="surah-guide">Surah Guide</button>
+            <button class="tab-button" data-tab="quiz">Quiz</button>
+            <button class="tab-button" data-tab="prayer-breakdown">Prayer Breakdown</button>
+        </div>
+
+        <div id="how-to-pray" class="tab-content active">
+            <h1>How To Pray</h1>
+
+<p>A step-by-step guide to performing Salat (Prayer) in the Sunni-Muslim tradition.</p>
+
+<div class="step-section">
+<h2>Step 1: Intention (Niyyah)</h2>
+
+<p><strong>Instructions:</strong> Make your intention in your heart to perform the specific prayer (Fajr, Dhuhr, Asr, Maghrib, or Isha).</p>
+
+<p><strong>Arabic:</strong> النية</p>
+
+<p><strong>Transliteration:</strong> An-Niyyah</p>
+
+<p><strong>Translation:</strong> The intention</p>
+
+<p><strong>Why:</strong> The Prophet Muhammad (peace be upon him) said, "Actions are by intentions." Making a clear intention helps focus the mind and heart on worship.</p>
+
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 2: Takbir (Opening)</h2>
+
+<p><strong>Instructions:</strong> Raise your hands to your ears (or shoulders) and say "Allahu Akbar" (God is Greatest).</p>
+
+<p><strong>Arabic:</strong> الله أكبر</p>
+
+<p><strong>Transliteration:</strong> Allahu Akbar</p>
+
+<p><strong>Translation:</strong> God is Greatest</p>
+
+<p><strong>Why:</strong> This marks the beginning of prayer and signifies leaving worldly matters behind. The hands raised symbolize submission and readiness to worship.</p>
+
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 3: Standing (Qiyam) - Recitation</h2>
+
+<p><strong>Instructions:</strong> Place your right hand over your left hand on your chest. Recite Surah Al-Fatiha, followed by another surah or verses from the Quran.</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ<br>الرَّحْمَٰنِ الرَّحِيمِ<br>مَالِكِ يَوْمِ الدِّينِ<br>إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ<br>اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ<br>صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Bismillahir Rahmanir Raheem<br>Alhamdu lillahi rabbil alameen<br>Ar-Rahmanir Raheem<br>Maliki yawmid deen<br>Iyyaka na'budu wa iyyaka nasta'een<br>Ihdinas siratal mustaqeem<br>Siratal latheena an'amta alayhim ghayril maghdoobi alayhim wa lad daleen</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">In the name of Allah, the Most Gracious, the Most Merciful<br>Praise be to Allah, the Lord of all the worlds<br>The Most Gracious, the Most Merciful<br>Master of the Day of Judgment<br>You alone we worship, and You alone we ask for help<br>Guide us to the straight path<br>The path of those upon whom You have bestowed favor, not of those who have evoked anger or of those who are astray<br>**Why:** Surah Al-Fatiha is the opening chapter of the Quran and is considered the essence of the entire book. It must be recited in every rakat of prayer. It establishes the relationship between the worshipper and Allah.</p>
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 4: Ruku (Bowing)</h2>
+
+<p><strong>Instructions:</strong> Say "Allahu Akbar" and bow down, placing your hands on your knees. Keep your back straight and say the following three times.</p>
+
+<p><strong>Arabic:</strong> سُبْحَانَ رَبِّيَ الْعَظِيمِ</p>
+
+<p><strong>Transliteration:</strong> Subhana rabbiyal azeem</p>
+
+<p><strong>Translation:</strong> Glory be to my Lord, the Great</p>
+
+<p><strong>Why:</strong> Bowing demonstrates humility and submission to Allah. The Prophet (peace be upon him) said, "The closest a servant is to his Lord is when he is in prostration."</p>
+
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 5: Standing from Ruku</h2>
+
+<p><strong>Instructions:</strong> Rise from bowing while saying the following, then stand straight.</p>
+
+<p><strong>Arabic:</strong> سَمِعَ اللَّهُ لِمَنْ حَمِدَهُ</p>
+
+<p><strong>Transliteration:</strong> Sami'Allahu liman hamidah</p>
+
+<p><strong>Translation:</strong> Allah hears those who praise Him</p>
+
+<p><strong>Then say:</strong> رَبَّنَا وَلَكَ الْحَمْدُ</p>
+
+<p><strong>Transliteration:</strong> Rabbana wa lakal hamd</p>
+
+<p><strong>Translation:</strong> Our Lord, to You is all praise</p>
+
+<p><strong>Why:</strong> This acknowledges that Allah hears our praise and we give thanks for His blessings.</p>
+
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 6: Sujud (Prostration)</h2>
+
+<p><strong>Instructions:</strong> Say "Allahu Akbar" and prostrate, placing your forehead, nose, both hands, knees, and toes on the ground. Say the following three times.</p>
+
+<p><strong>Arabic:</strong> سُبْحَانَ رَبِّيَ الْأَعْلَى</p>
+
+<p><strong>Transliteration:</strong> Subhana rabbiyal a'la</p>
+
+<p><strong>Translation:</strong> Glory be to my Lord, the Most High</p>
+
+<p><strong>Why:</strong> Prostration is the highest form of submission in prayer. The Prophet (peace be upon him) was commanded to prostrate, and it brings the worshipper closest to Allah.</p>
+
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 7: Sitting Between Prostrations</h2>
+
+<p><strong>Instructions:</strong> Say "Allahu Akbar" and sit up briefly, then prostrate again.</p>
+
+<p><strong>Arabic:</strong> (While sitting) رَبِّ اغْفِرْ لِي</p>
+
+<p><strong>Transliteration:</strong> Rabbi ghfir li</p>
+
+<p><strong>Translation:</strong> My Lord, forgive me</p>
+
+<p><strong>Why:</strong> This brief pause between prostrations allows for reflection and seeking forgiveness.</p>
+
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 8: Second Sujud</h2>
+
+<p><strong>Instructions:</strong> Perform the second prostration exactly like the first, saying "Subhana rabbiyal a'la" three times.</p>
+
+<p><strong>Why:</strong> Two prostrations complete one rakat. This is based on the practice of the Prophet (peace be upon him).</p>
+
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 9: Tashahhud (Sitting for Testimony)</h2>
+
+<p><strong>Instructions:</strong> After completing the required number of rakats, sit and recite the Tashahhud.</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، السَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ، السَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ، أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">At-tahiyyatu lillahi was-salawatu wat-tayyibatu. As-salamu 'alayka ayyuhan-nabiyyu wa rahmatullahi wa barakatuhu. As-salamu 'alayna wa 'ala 'ibadillahis-salihin. Ashhadu an la ilaha illallah wa ashhadu anna Muhammadan 'abduhu wa rasuluhu.</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">All greetings, prayers, and good words are for Allah. Peace be upon you, O Prophet, and the mercy of Allah and His blessings. Peace be upon us and upon the righteous servants of Allah. I bear witness that there is no god but Allah, and I bear witness that Muhammad is His servant and messenger.<br>**Why:** This is the testimony of faith (Shahada) and acknowledgment of the Prophet's message. It's recited in the final sitting of every prayer.</p>
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 10: Salawat (Blessings on the Prophet)</h2>
+
+<p><strong>Instructions:</strong> After Tashahhud, send blessings upon the Prophet Muhammad.</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ إِنَّكَ حَمِيدٌ مَجِيدٌ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Allahumma salli 'ala Muhammadin wa 'ala ali Muhammadin, kama sallayta 'ala Ibrahima wa 'ala ali Ibrahima, innaka hamidun majid.</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">O Allah, send blessings upon Muhammad and the family of Muhammad, as You sent blessings upon Ibrahim and the family of Ibrahim. Indeed, You are Praiseworthy and Glorious.<br>**Why:** This is a command from Allah in the Quran (33:56) to send blessings upon the Prophet. It's a way to show love and respect for the final messenger.</p>
+<hr>
+
+</div>
+<div class="step-section">
+<h2>Step 11: Final Salam (Ending)</h2>
+
+<p><strong>Instructions:</strong> Turn your head to the right and say "Assalamu alaikum wa rahmatullah" (Peace be upon you and the mercy of Allah), then turn to the left and repeat.</p>
+
+<p><strong>Arabic:</strong> السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ</p>
+
+<p><strong>Transliteration:</strong> Assalamu alaikum wa rahmatullah</p>
+
+<p><strong>Translation:</strong> Peace be upon you and the mercy of Allah</p>
+
+<p><strong>Why:</strong> The prayer ends with greetings of peace, symbolizing that you're returning to the world and greeting the angels who record your deeds. This completes the prayer.</p>
+
+
+</div>
+        </div>
+
+        <div id="surah-guide" class="tab-content">
+            <h1>Surah Guide</h1>
+
+<p>A collection of short surahs perfect for daily prayers, with translations and their significance.</p>
+
+<h2>Surah Al-Fatiha (The Opening)</h2>
+
+<p><strong>Arabic Name:</strong> الفاتحة</p>
+
+<p><strong>Number of Verses:</strong> 7</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ<br>الرَّحْمَٰنِ الرَّحِيمِ<br>مَالِكِ يَوْمِ الدِّينِ<br>إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ<br>اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ<br>صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Bismillahir Rahmanir Raheem<br>Alhamdu lillahi rabbil alameen<br>Ar-Rahmanir Raheem<br>Maliki yawmid deen<br>Iyyaka na'budu wa iyyaka nasta'een<br>Ihdinas siratal mustaqeem<br>Siratal latheena an'amta alayhim ghayril maghdoobi alayhim wa lad daleen</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">In the name of Allah, the Most Gracious, the Most Merciful<br>Praise be to Allah, the Lord of all the worlds<br>The Most Gracious, the Most Merciful<br>Master of the Day of Judgment<br>You alone we worship, and You alone we ask for help<br>Guide us to the straight path<br>The path of those upon whom You have bestowed favor, not of those who have evoked anger or of those who are astray<br>**Significance:** Al-Fatiha is the most important surah in the Quran. It must be recited in every rakat of every prayer. The Prophet (peace be upon him) called it "The Mother of the Book" and "The Seven Oft-Repeated Verses." It establishes the fundamental relationship between the worshipper and Allah, acknowledging His sovereignty, seeking guidance, and recognizing the straight path.</p>
+<hr>
+
+<h2>Surah Al-Ikhlas (The Sincerity)</h2>
+
+<p><strong>Arabic Name:</strong> الإخلاص</p>
+
+<p><strong>Number of Verses:</strong> 4</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">قُلْ هُوَ اللَّهُ أَحَدٌ<br>اللَّهُ الصَّمَدُ<br>لَمْ يَلِدْ وَلَمْ يُولَدْ<br>وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Qul huwa Allahu ahad<br>Allahus samad<br>Lam yalid wa lam yoolad<br>Wa lam yakun lahu kufuwan ahad</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">Say, "He is Allah, [who is] One,<br>Allah, the Eternal Refuge.<br>He neither begets nor is born,<br>Nor is there to Him any equivalent."<br>**Significance:** This surah is equivalent to one-third of the Quran in reward. It emphasizes the absolute oneness of Allah (Tawheed) and is often recited after Al-Fatiha. The Prophet (peace be upon him) loved this surah and recommended reciting it frequently. It's perfect for any prayer and is especially recommended for the Sunnah prayers.</p>
+<hr>
+
+<h2>Surah Al-Falaq (The Daybreak)</h2>
+
+<p><strong>Arabic Name:</strong> الفلق</p>
+
+<p><strong>Number of Verses:</strong> 5</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ<br>مِن شَرِّ مَا خَلَقَ<br>وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ<br>وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ<br>وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Qul a'udhu birabbil falaq<br>Min sharri ma khalaq<br>Wa min sharri ghasiqin idha waqab<br>Wa min sharrin naffathati fil 'uqad<br>Wa min sharri hasidin idha hasad</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">Say, "I seek refuge in the Lord of daybreak<br>From the evil of that which He created<br>And from the evil of darkness when it settles<br>And from the evil of the blowers in knots<br>And from the evil of an envier when he envies."<br>**Significance:** This surah, along with An-Nas, is known as "Al-Mu'awwidhatayn" (the two protectors). The Prophet (peace be upon him) recited these two surahs every night before sleeping and recommended them for protection. They're excellent for the last two rakats of any prayer.</p>
+<hr>
+
+<h2>Surah An-Nas (Mankind)</h2>
+
+<p><strong>Arabic Name:</strong> الناس</p>
+
+<p><strong>Number of Verses:</strong> 6</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">قُلْ أَعُوذُ بِرَبِّ النَّاسِ<br>مَلِكِ النَّاسِ<br>إِلَٰهِ النَّاسِ<br>مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ<br>الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ<br>مِنَ الْجِنَّةِ وَالنَّاسِ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Qul a'udhu birabbin nas<br>Malikin nas<br>Ilahin nas<br>Min sharril waswasil khannas<br>Alladhi yuwaswisu fi sudurin nas<br>Minal jinnati wan nas</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">Say, "I seek refuge in the Lord of mankind,<br>The Sovereign of mankind,<br>The God of mankind,<br>From the evil of the retreating whisperer<br>Who whispers [evil] into the breasts of mankind<br>From among the jinn and mankind."<br>**Significance:** This surah seeks protection from Satan and evil whispers. It's often recited together with Al-Falaq. The Prophet (peace be upon him) used these two surahs as protection and recommended them for seeking refuge from all forms of evil.</p>
+<hr>
+
+<h2>Surah Al-Kawthar (The Abundance)</h2>
+
+<p><strong>Arabic Name:</strong> الكوثر</p>
+
+<p><strong>Number of Verses:</strong> 3</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">إِنَّا أَعْطَيْنَاكَ الْكَوْثَرَ<br>فَصَلِّ لِرَبِّكَ وَانْحَرْ<br>إِنَّ شَانِئَكَ هُوَ الْأَبْتَرُ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Inna a'taynakal kawthar<br>Fasalli li rabbika wanhar<br>Inna shani'aka huwal abtar</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">Indeed, We have granted you, [O Muhammad], al-Kawthar.<br>So pray to your Lord and sacrifice [to Him alone].<br>Indeed, your enemy is the one cut off.<br>**Significance:** This is the shortest surah in the Quran. It was revealed to console the Prophet (peace be upon him) and promises him abundance (Kawthar, which refers to a river in Paradise). It's perfect for quick recitation and reminds us of Allah's blessings.</p>
+<hr>
+
+<h2>Surah Al-Asr (The Time)</h2>
+
+<p><strong>Arabic Name:</strong> العصر</p>
+
+<p><strong>Number of Verses:</strong> 3</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">وَالْعَصْرِ<br>إِنَّ الْإِنسَانَ لَفِي خُسْرٍ<br>إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Wal 'asr<br>Innal insana lafi khusr<br>Illal latheena amanu wa 'amilus salihati wa tawasaw bil haqqi wa tawasaw bis sabr</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">By time,<br>Indeed, mankind is in loss,<br>Except for those who have believed and done righteous deeds and advised each other to truth and advised each other to patience.<br>**Significance:** This surah emphasizes the value of time and the importance of faith, good deeds, truth, and patience. It's a powerful reminder of what truly matters in life and is excellent for reflection during prayer.</p>
+<hr>
+
+<h2>Surah An-Nasr (The Divine Support)</h2>
+
+<p><strong>Arabic Name:</strong> النصر</p>
+
+<p><strong>Number of Verses:</strong> 3</p>
+
+<p><strong>Arabic:</strong></p>
+<div class="arabic-text">إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ<br>وَرَأَيْتَ النَّاسَ يَدْخُلُونَ فِي دِينِ اللَّهِ أَفْوَاجًا<br>فَسَبِّحْ بِحَمْدِ رَبِّكَ وَاسْتَغْفِرْهُ ۚ إِنَّهُ كَانَ تَوَّابًا</div>
+<p><strong>Transliteration:</strong></p><p class="transliteration">Itha jaa nasrullahi wal fath<br>Wa ra'aitan nasa yadkhuluna fi dinillahi afwaja<br>Fasabbih bihamdi rabbika wastaghfirh, innahu kana tawwaba</p>
+<p><strong>Translation:</strong></p>
+<p class="translation">When the victory of Allah has come and the conquest,<br>And you see the people entering into the religion of Allah in multitudes,<br>Then exalt [Him] with praise of your Lord and ask forgiveness of Him. Indeed, He is ever Accepting of repentance.<br>**Significance:** This was one of the last surahs revealed to the Prophet (peace be upon him). It teaches humility in success and the importance of praising Allah and seeking forgiveness even in times of victory. It's a beautiful reminder of gratitude and humility.</p>
+        </div>
+
+        <div id="quiz" class="tab-content">
+            <h1>Pre-Prayer Quiz</h1>
+
+<p>Test your knowledge about prayer rituals and Quranic verses.</p>
+
+<div class="quiz-question">
+<h2>Question 1</h2>
+
+<p><strong>What must be recited in every rakat of prayer?</strong></p>
+
+<ul>
+<li class="quiz-answer">Surah Al-Ikhlas</li>
+<li class="quiz-answer correct">✓ Surah Al-Fatiha</li>
+<li class="quiz-answer">Surah An-Nas</li>
+<li class="quiz-answer">Any surah from the Quran</li>
+</ul>
+
+<p><strong>Explanation:</strong> Surah Al-Fatiha is mandatory in every rakat of every prayer. It's called "The Mother of the Book" and is essential to the validity of prayer.</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 2</h2>
+
+<p><strong>What do you say during Ruku (bowing)?</strong></p>
+
+<ul>
+<li class="quiz-answer">Subhana rabbiyal a'la</li>
+<li class="quiz-answer correct">✓ Subhana rabbiyal azeem</li>
+<li class="quiz-answer">Allahu Akbar</li>
+<li class="quiz-answer">Sami'Allahu liman hamidah</li>
+</ul>
+
+<p><strong>Explanation:</strong> During Ruku, you say "Subhana rabbiyal azeem" (Glory be to my Lord, the Great) three times. "Subhana rabbiyal a'la" is said during prostration.</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 3</h2>
+
+<p><strong>What is the meaning of "Iyyaka na'budu wa iyyaka nasta'een" from Surah Al-Fatiha?</strong></p>
+
+<ul>
+<li class="quiz-answer">Guide us to the straight path</li>
+<li class="quiz-answer correct">✓ You alone we worship, and You alone we ask for help</li>
+<li class="quiz-answer">Praise be to Allah, the Lord of all the worlds</li>
+<li class="quiz-answer">Master of the Day of Judgment</li>
+</ul>
+
+<p><strong>Explanation:</strong> This verse establishes that worship and seeking help belong exclusively to Allah, emphasizing Tawheed (oneness of Allah).</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 4</h2>
+
+<p><strong>How many prostrations (sujud) are in one complete rakat?</strong></p>
+
+<ul>
+<li class="quiz-answer">One</li>
+<li class="quiz-answer correct">✓ Two</li>
+<li class="quiz-answer">Three</li>
+<li class="quiz-answer">Four</li>
+</ul>
+
+<p><strong>Explanation:</strong> Each rakat consists of two prostrations (sujud). After the first prostration, you sit briefly, then perform the second prostration.</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 5</h2>
+
+<p><strong>What surah is equivalent to one-third of the Quran in reward?</strong></p>
+
+<ul>
+<li class="quiz-answer">Surah Al-Fatiha</li>
+<li class="quiz-answer correct">✓ Surah Al-Ikhlas</li>
+<li class="quiz-answer">Surah An-Nas</li>
+<li class="quiz-answer">Surah Al-Kawthar</li>
+</ul>
+
+<p><strong>Explanation:</strong> The Prophet (peace be upon him) said that reciting Surah Al-Ikhlas is equivalent to reciting one-third of the Quran in reward.</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 6</h2>
+
+<p><strong>What do you say when rising from Ruku?</strong></p>
+
+<ul>
+<li class="quiz-answer">Subhana rabbiyal azeem</li>
+<li class="quiz-answer correct">✓ Sami'Allahu liman hamidah, then Rabbana wa lakal hamd</li>
+<li class="quiz-answer">Allahu Akbar</li>
+<li class="quiz-answer">Assalamu alaikum wa rahmatullah</li>
+</ul>
+
+<p><strong>Explanation:</strong> When rising from Ruku, you say "Sami'Allahu liman hamidah" (Allah hears those who praise Him), then "Rabbana wa lakal hamd" (Our Lord, to You is all praise).</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 7</h2>
+
+<p><strong>What is recited during the final sitting (Tashahhud) of prayer?</strong></p>
+
+<ul>
+<li class="quiz-answer">Only Surah Al-Fatiha</li>
+<li class="quiz-answer correct">✓ The testimony of faith (Shahada) and blessings on the Prophet</li>
+<li class="quiz-answer">Only blessings on the Prophet</li>
+<li class="quiz-answer">Any dua (supplication)</li>
+</ul>
+
+<p><strong>Explanation:</strong> The Tashahhud includes the testimony of faith (Shahada) acknowledging that there is no god but Allah and that Muhammad is His messenger, followed by blessings on the Prophet.</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 8</h2>
+
+<p><strong>What is the significance of Surah Al-Falaq and An-Nas?</strong></p>
+
+<ul>
+<li class="quiz-answer">They are the longest surahs</li>
+<li class="quiz-answer correct">✓ They are known as "Al-Mu'awwidhatayn" (the two protectors) and are recited for protection</li>
+<li class="quiz-answer">They must be recited in every prayer</li>
+<li class="quiz-answer">They are only for special occasions</li>
+</ul>
+
+<p><strong>Explanation:</strong> These two surahs are called "Al-Mu'awwidhatayn" and are recited for seeking protection from evil. The Prophet (peace be upon him) recited them every night.</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 9</h2>
+
+<p><strong>How do you end the prayer?</strong></p>
+
+<ul>
+<li class="quiz-answer">By saying "Allahu Akbar"</li>
+<li class="quiz-answer correct">✓ By turning your head right and left saying "Assalamu alaikum wa rahmatullah"</li>
+<li class="quiz-answer">By standing up</li>
+<li class="quiz-answer">By reciting Surah Al-Fatiha again</li>
+</ul>
+
+<p><strong>Explanation:</strong> The prayer ends with the final Salam, turning your head to the right and left, saying "Assalamu alaikum wa rahmatullah" (Peace be upon you and the mercy of Allah).</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 10</h2>
+
+<p><strong>What is the meaning of "Qul huwa Allahu ahad" from Surah Al-Ikhlas?</strong></p>
+
+<ul>
+<li class="quiz-answer">Say, I seek refuge in the Lord of mankind</li>
+<li class="quiz-answer correct">✓ Say, "He is Allah, [who is] One"</li>
+<li class="quiz-answer">Say, Praise be to Allah</li>
+<li class="quiz-answer">Say, Allah is the Greatest</li>
+</ul>
+
+<p><strong>Explanation:</strong> This is the opening verse of Surah Al-Ikhlas, emphasizing the absolute oneness of Allah (Tawheed).</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 11</h2>
+
+<p><strong>What do you say during Sujud (prostration)?</strong></p>
+
+<ul>
+<li class="quiz-answer">Subhana rabbiyal azeem</li>
+<li class="quiz-answer correct">✓ Subhana rabbiyal a'la</li>
+<li class="quiz-answer">Sami'Allahu liman hamidah</li>
+<li class="quiz-answer">Rabbana wa lakal hamd</li>
+</ul>
+
+<p><strong>Explanation:</strong> During prostration, you say "Subhana rabbiyal a'la" (Glory be to my Lord, the Most High) three times.</p>
+
+<hr>
+
+</div>
+<div class="quiz-question">
+<h2>Question 12</h2>
+
+<p><strong>What is the significance of raising hands and saying "Allahu Akbar" at the beginning of prayer?</strong></p>
+
+<ul>
+<li class="quiz-answer">It's optional</li>
+<li class="quiz-answer correct">✓ It marks the beginning of prayer and signifies leaving worldly matters behind</li>
+<li class="quiz-answer">It's only for the first rakat</li>
+<li class="quiz-answer">It's a cultural practice</li>
+</ul>
+
+<p><strong>Explanation:</strong> The opening Takbir (Allahu Akbar) with raised hands marks the formal beginning of prayer and symbolizes entering into a state of worship, leaving worldly concerns behind.</p>
+
+
+</div>
+        </div>
+
+        <div id="prayer-breakdown" class="tab-content">
+            <h1>Prayer Breakdown</h1>
+
+<p>A complete guide to the number of rakats (units) for each prayer in Sunni Islam.</p>
+
+<h2>Daily Prayers</h2>
+
+<table>
+<thead><tr><th>Prayer</th><th>Sunnat (Before)</th><th>Fard (Obligatory)</th><th>Sunnat (After)</th><th>Witr</th><th>Total Rakats</th></tr></thead>
+<tbody>
+<tr><td>**Fajr** (Dawn)</td><td>2</td><td>2</td><td>-</td><td>-</td><td>4</td></tr>
+<tr><td>**Dhuhr** (Noon)</td><td>4</td><td>4</td><td>2</td><td>-</td><td>10</td></tr>
+<tr><td>**Asr** (Afternoon)</td><td>4</td><td>4</td><td>-</td><td>-</td><td>8</td></tr>
+<tr><td>**Maghrib** (Sunset)</td><td>-</td><td>3</td><td>2</td><td>-</td><td>5</td></tr>
+<tr><td>**Isha** (Night)</td><td>4</td><td>4</td><td>2</td><td>3</td><td>13</td></tr>
+</tbody></table>
+
+<h2>Detailed Breakdown</h2>
+
+<h3>Fajr (Dawn Prayer)</h3>
+<ul>
+<li>**2 Rakats Sunnat (Before):** Recommended but highly emphasized</li>
+<li>**2 Rakats Fard (Obligatory):** Mandatory</li>
+<li>**Total:** 4 rakats</li>
+</ul>
+
+<h3>Dhuhr (Noon Prayer)</h3>
+<ul>
+<li>**4 Rakats Sunnat (Before):** Recommended</li>
+<li>**4 Rakats Fard (Obligatory):** Mandatory</li>
+<li>**2 Rakats Sunnat (After):** Recommended and highly emphasized</li>
+<li>**Total:** 10 rakats</li>
+</ul>
+
+<h3>Asr (Afternoon Prayer)</h3>
+<ul>
+<li>**4 Rakats Sunnat (Before):** Recommended</li>
+<li>**4 Rakats Fard (Obligatory):** Mandatory</li>
+<li>**Total:** 8 rakats</li>
+</ul>
+
+<h3>Maghrib (Sunset Prayer)</h3>
+<ul>
+<li>**3 Rakats Fard (Obligatory):** Mandatory</li>
+<li>**2 Rakats Sunnat (After):** Recommended and highly emphasized</li>
+<li>**Total:** 5 rakats</li>
+</ul>
+
+<h3>Isha (Night Prayer)</h3>
+<ul>
+<li>**4 Rakats Sunnat (Before):** Recommended</li>
+<li>**4 Rakats Fard (Obligatory):** Mandatory</li>
+<li>**2 Rakats Sunnat (After):** Recommended</li>
+<li>**3 Rakats Witr:** Recommended and highly emphasized (can be prayed as 1, 3, 5, 7, 9, or 11 rakats, but 3 is most common)</li>
+<li>**Total:** 13 rakats</li>
+</ul>
+
+<h2>Notes</h2>
+
+<ul>
+<li>**Fard:** These are the obligatory prayers that must be performed. Missing them without a valid excuse is a sin.</li>
+<li>**Sunnat:** These are recommended prayers following the example of the Prophet (peace be upon him). They bring additional reward but are not mandatory.</li>
+<li>**Witr:** This is a special prayer performed after Isha. It's highly recommended and can be prayed in odd numbers (1, 3, 5, 7, 9, or 11 rakats). The most common is 3 rakats.</li>
+<li>The Sunnat prayers before Fajr and after Maghrib and Dhuhr are particularly emphasized and are called "Sunnat Mu'akkadah" (confirmed Sunnah).</li>
+</ul>
+
+<h2>Daily Total</h2>
+
+<p><strong>Total Rakats per Day:</strong> 48 rakats</p>
+<ul>
+<li>Fard: 17 rakats</li>
+<li>Sunnat: 28 rakats</li>
+<li>Witr: 3 rakats</li>
+</ul>
+
+
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Quiz interaction
+        document.querySelectorAll('.quiz-answer').forEach(answer => {
+            answer.addEventListener('click', function() {
+                // Remove previous selections
+                this.parentElement.querySelectorAll('.quiz-answer').forEach(a => {
+                    a.style.backgroundColor = '';
+                    a.style.color = '';
+                    a.style.borderLeft = '';
+                });
+                
+                // Highlight clicked answer
+                if (this.classList.contains('correct')) {
+                    this.style.backgroundColor = '#d4edda';
+                    this.style.color = '#155724';
+                    this.style.borderLeft = '3px solid #28a745';
+                } else {
+                    this.style.backgroundColor = '#f8d7da';
+                    this.style.color = '#721c24';
+                    this.style.borderLeft = '3px solid #dc3545';
+                    
+                    // Show correct answer
+                    const correctAnswer = this.parentElement.querySelector('.quiz-answer.correct');
+                    if (correctAnswer) {
+                        correctAnswer.style.backgroundColor = '#d4edda';
+                        correctAnswer.style.color = '#155724';
+                        correctAnswer.style.borderLeft = '3px solid #28a745';
+                    }
+                }
+            });
+        });
+
+        // Format Arabic text better
+        document.querySelectorAll('p').forEach(p => {
+            const text = p.innerHTML;
+            // Check if paragraph contains Arabic characters
+            if (/[\u0600-\u06FF]/.test(text)) {
+                p.classList.add('arabic-text');
+            }
+        });
+    </script>
+</body>
+</html>
+

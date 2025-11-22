@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prayer Helper - Your Guide to Salat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: -20px -20px 20px -20px;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 16px;
+            background-color: #e0e0e0;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background-color: #d0d0d0;
+        }
+
+        .tab-button.active {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #667eea;
+            margin: 20px 0 15px 0;
+            font-size: 24px;
+        }
+
+        h2 {
+            color: #764ba2;
+            margin: 25px 0 15px 0;
+            font-size: 20px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            color: #555;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+        }
+
+        p {
+            margin: 12px 0;
+            line-height: 1.8;
+        }
+
+        strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        ul {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+
+        li {
+            margin: 8px 0;
+            line-height: 1.7;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 25px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+            overflow-x: auto;
+            display: block;
+        }
+
+        thead {
+            background-color: #667eea;
+            color: white;
+        }
+
+        th {
+            padding: 12px 8px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .step-section {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .arabic-text {
+            font-family: 'Amiri', 'Arabic Typesetting', 'Traditional Arabic', serif;
+            font-size: 20px;
+            direction: rtl;
+            text-align: right;
+            margin: 10px 0;
+            line-height: 2;
+            color: #333;
+        }
+
+        .transliteration {
+            font-style: italic;
+            color: #666;
+            margin: 8px 0;
+        }
+
+        .translation {
+            color: #555;
+            margin: 8px 0;
+        }
+
+        .why-section {
+            background-color: #e8f4f8;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 3px solid #4a90e2;
+        }
+
+        .why-section strong {
+            color: #4a90e2;
+        }
+
+        .quiz-question {
+            background-color: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ffa500;
+        }
+
+        .quiz-answer {
+            list-style: none;
+            padding: 10px;
+            margin: 8px 0;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .quiz-answer:hover {
+            background-color: #e8e8e8;
+        }
+
+        .quiz-answer.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 3px solid #28a745;
+        }
+
+        .explanation {
+            background-color: #e8f5e9;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 3px solid #4caf50;
+            font-size: 14px;
+        }
+
+        .explanation strong {
+            color: #2e7d32;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 24px;
+            }
+
+            .tab-button {
+                min-width: 100px;
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px 6px;
+            }
+
+            .arabic-text {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🕌 Prayer Helper</h1>
+            <p>Your Guide to Performing Salat</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-button active" data-tab="how-to-pray">How To Pray</button>
+            <button class="tab-button" data-tab="surah-guide">Surah Guide</button>
+            <button class="tab-button" data-tab="quiz">Quiz</button>
+            <button class="tab-button" data-tab="prayer-breakdown">Prayer Breakdown</button>
+        </div>
+
+        <div id="how-to-pray" class="tab-content active">
+            {{HOW_TO_PRAY}}
+        </div>
+
+        <div id="surah-guide" class="tab-content">
+            {{SURAH_GUIDE}}
+        </div>
+
+        <div id="quiz" class="tab-content">
+            {{QUIZ}}
+        </div>
+
+        <div id="prayer-breakdown" class="tab-content">
+            {{PRAYER_BREAKDOWN}}
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and content
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active');
+                document.getElementById(tabName).classList.add('active');
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // Quiz interaction
+        document.querySelectorAll('.quiz-answer').forEach(answer => {
+            answer.addEventListener('click', function() {
+                // Remove previous selections
+                this.parentElement.querySelectorAll('.quiz-answer').forEach(a => {
+                    a.style.backgroundColor = '';
+                    a.style.color = '';
+                    a.style.borderLeft = '';
+                });
+                
+                // Highlight clicked answer
+                if (this.classList.contains('correct')) {
+                    this.style.backgroundColor = '#d4edda';
+                    this.style.color = '#155724';
+                    this.style.borderLeft = '3px solid #28a745';
+                } else {
+                    this.style.backgroundColor = '#f8d7da';
+                    this.style.color = '#721c24';
+                    this.style.borderLeft = '3px solid #dc3545';
+                    
+                    // Show correct answer
+                    const correctAnswer = this.parentElement.querySelector('.quiz-answer.correct');
+                    if (correctAnswer) {
+                        correctAnswer.style.backgroundColor = '#d4edda';
+                        correctAnswer.style.color = '#155724';
+                        correctAnswer.style.borderLeft = '3px solid #28a745';
+                    }
+                }
+            });
+        });
+
+        // Format Arabic text better
+        document.querySelectorAll('p').forEach(p => {
+            const text = p.innerHTML;
+            // Check if paragraph contains Arabic characters
+            if (/[\u0600-\u06FF]/.test(text)) {
+                p.classList.add('arabic-text');
+            }
+        });
+    </script>
+</body>
+</html>
+
