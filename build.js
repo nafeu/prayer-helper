@@ -31,7 +31,8 @@ function markdownToHTML(markdown) {
       if (inQuizQuestion) {
         html.push('</div>');
       }
-      html.push('<div class="quiz-question">');
+      const questionNum = trimmed.match(/Question (\d+)/)[1];
+      html.push(`<div class="quiz-question" data-question="${questionNum}" style="display: none;">`);
       html.push(trimmed.replace(/^## (.*)$/, '<h2>$1</h2>'));
       inQuizQuestion = true;
       i++;
@@ -83,7 +84,7 @@ function markdownToHTML(markdown) {
           inStepSection = false;
         }
       } else if (fieldName === 'Explanation') {
-        html.push(`<div class="explanation"><p><strong>Explanation:</strong> ${content}</p></div>`);
+        html.push(`<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> ${content}</p></div>`);
         if (inQuizQuestion) {
           html.push('</div>');
           inQuizQuestion = false;
@@ -124,14 +125,14 @@ function markdownToHTML(markdown) {
     // Lists
     if (trimmed.match(/^\- \[x\] /)) {
       const content = trimmed.replace(/^\- \[x\] /, '');
-      html.push(`<li class="quiz-answer correct">✓ ${content}</li>`);
+      html.push(`<li class="quiz-answer correct" data-correct="true">${content}</li>`);
       i++;
       continue;
     }
     
     if (trimmed.match(/^\- \[ \] /)) {
       const content = trimmed.replace(/^\- \[ \] /, '');
-      html.push(`<li class="quiz-answer">${content}</li>`);
+      html.push(`<li class="quiz-answer" data-correct="false">${content}</li>`);
       i++;
       continue;
     }
@@ -223,7 +224,43 @@ function markdownToHTML(markdown) {
     result.push('</ul>');
   }
   
-  return result.join('\n');
+  html = result.join('\n');
+  
+  // Remove duplicate nested explanation divs first
+  html = html.replace(/<div class="explanation"[^>]*>\s*<div class="explanation"[^>]*>/g, 
+    '<div class="explanation" style="display: none !important;">');
+  html = html.replace(/<\/div>\s*<\/div>(?=\s*(?:<hr>|<\/div>|$))/g, '</div>');
+  
+  // Post-process: Find any paragraphs with "Explanation:" that aren't already in explanation divs
+  // Check if it's not already inside an explanation div
+  const htmlLines = html.split('\n');
+  const processed = [];
+  let inExplanationDiv = false;
+  
+  for (let i = 0; i < htmlLines.length; i++) {
+    const line = htmlLines[i];
+    
+    // Track if we're inside an explanation div
+    if (line.includes('<div class="explanation"')) {
+      inExplanationDiv = true;
+      processed.push(line);
+    } else if (line.includes('</div>') && inExplanationDiv) {
+      inExplanationDiv = false;
+      processed.push(line);
+    } else if (line.match(/<p><strong>Explanation:<\/strong>/) && !inExplanationDiv) {
+      // Wrap explanation paragraph that's not already in a div
+      const content = line.match(/<p><strong>Explanation:<\/strong> (.+?)<\/p>/);
+      if (content) {
+        processed.push(`<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> ${content[1]}</p></div>`);
+      } else {
+        processed.push(line);
+      }
+    } else {
+      processed.push(line);
+    }
+  }
+  
+  return processed.join('\n');
 }
 
 // Read markdown files

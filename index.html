@@ -250,9 +250,7 @@
         }
 
         .quiz-answer.correct {
-            background-color: #1e3a28;
-            color: #4ade80;
-            border-left: 3px solid #22c55e;
+            /* No default styling - will be styled when revealed */
         }
 
         .explanation {
@@ -262,10 +260,33 @@
             margin-top: 10px;
             border-left: 3px solid #4ade80;
             font-size: 14px;
+            display: none !important; /* Hidden by default */
         }
 
         .explanation strong {
             color: #4ade80;
+        }
+
+        .next-question-btn {
+            display: none;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #4a5568;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .next-question-btn:hover {
+            background-color: #5a6578;
+        }
+
+        .next-question-btn:active {
+            background-color: #3a4558;
         }
 
         @media (max-width: 600px) {
@@ -593,206 +614,206 @@
 
 <p>Test your knowledge about prayer rituals and Quranic verses.</p>
 
-<div class="quiz-question">
+<div class="quiz-question" data-question="1" style="display: none;">
 <h2>Question 1</h2>
 
 <p><strong>What must be recited in every rakat of prayer?</strong></p>
 
 <ul>
-<li class="quiz-answer">Surah Al-Ikhlas</li>
-<li class="quiz-answer correct">✓ Surah Al-Fatiha</li>
-<li class="quiz-answer">Surah An-Nas</li>
-<li class="quiz-answer">Any surah from the Quran</li>
+<li class="quiz-answer" data-correct="false">Surah Al-Ikhlas</li>
+<li class="quiz-answer correct" data-correct="true">Surah Al-Fatiha</li>
+<li class="quiz-answer" data-correct="false">Surah An-Nas</li>
+<li class="quiz-answer" data-correct="false">Any surah from the Quran</li>
 </ul>
 
-<p><strong>Explanation:</strong> Surah Al-Fatiha is mandatory in every rakat of every prayer. It's called "The Mother of the Book" and is essential to the validity of prayer.</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> Surah Al-Fatiha is mandatory in every rakat of every prayer. It's called "The Mother of the Book" and is essential to the validity of prayer.</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="2" style="display: none;">
 <h2>Question 2</h2>
 
 <p><strong>What do you say during Ruku (bowing)?</strong></p>
 
 <ul>
-<li class="quiz-answer">Subhana rabbiyal a'la</li>
-<li class="quiz-answer correct">✓ Subhana rabbiyal azeem</li>
-<li class="quiz-answer">Allahu Akbar</li>
-<li class="quiz-answer">Sami'Allahu liman hamidah</li>
+<li class="quiz-answer" data-correct="false">Subhana rabbiyal a'la</li>
+<li class="quiz-answer correct" data-correct="true">Subhana rabbiyal azeem</li>
+<li class="quiz-answer" data-correct="false">Allahu Akbar</li>
+<li class="quiz-answer" data-correct="false">Sami'Allahu liman hamidah</li>
 </ul>
 
-<p><strong>Explanation:</strong> During Ruku, you say "Subhana rabbiyal azeem" (Glory be to my Lord, the Great) three times. "Subhana rabbiyal a'la" is said during prostration.</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> During Ruku, you say "Subhana rabbiyal azeem" (Glory be to my Lord, the Great) three times. "Subhana rabbiyal a'la" is said during prostration.</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="3" style="display: none;">
 <h2>Question 3</h2>
 
 <p><strong>What is the meaning of "Iyyaka na'budu wa iyyaka nasta'een" from Surah Al-Fatiha?</strong></p>
 
 <ul>
-<li class="quiz-answer">Guide us to the straight path</li>
-<li class="quiz-answer correct">✓ You alone we worship, and You alone we ask for help</li>
-<li class="quiz-answer">Praise be to Allah, the Lord of all the worlds</li>
-<li class="quiz-answer">Master of the Day of Judgment</li>
+<li class="quiz-answer" data-correct="false">Guide us to the straight path</li>
+<li class="quiz-answer correct" data-correct="true">You alone we worship, and You alone we ask for help</li>
+<li class="quiz-answer" data-correct="false">Praise be to Allah, the Lord of all the worlds</li>
+<li class="quiz-answer" data-correct="false">Master of the Day of Judgment</li>
 </ul>
 
-<p><strong>Explanation:</strong> This verse establishes that worship and seeking help belong exclusively to Allah, emphasizing Tawheed (oneness of Allah).</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> This verse establishes that worship and seeking help belong exclusively to Allah, emphasizing Tawheed (oneness of Allah).</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="4" style="display: none;">
 <h2>Question 4</h2>
 
 <p><strong>How many prostrations (sujud) are in one complete rakat?</strong></p>
 
 <ul>
-<li class="quiz-answer">One</li>
-<li class="quiz-answer correct">✓ Two</li>
-<li class="quiz-answer">Three</li>
-<li class="quiz-answer">Four</li>
+<li class="quiz-answer" data-correct="false">One</li>
+<li class="quiz-answer correct" data-correct="true">Two</li>
+<li class="quiz-answer" data-correct="false">Three</li>
+<li class="quiz-answer" data-correct="false">Four</li>
 </ul>
 
-<p><strong>Explanation:</strong> Each rakat consists of two prostrations (sujud). After the first prostration, you sit briefly, then perform the second prostration.</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> Each rakat consists of two prostrations (sujud). After the first prostration, you sit briefly, then perform the second prostration.</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="5" style="display: none;">
 <h2>Question 5</h2>
 
 <p><strong>What surah is equivalent to one-third of the Quran in reward?</strong></p>
 
 <ul>
-<li class="quiz-answer">Surah Al-Fatiha</li>
-<li class="quiz-answer correct">✓ Surah Al-Ikhlas</li>
-<li class="quiz-answer">Surah An-Nas</li>
-<li class="quiz-answer">Surah Al-Kawthar</li>
+<li class="quiz-answer" data-correct="false">Surah Al-Fatiha</li>
+<li class="quiz-answer correct" data-correct="true">Surah Al-Ikhlas</li>
+<li class="quiz-answer" data-correct="false">Surah An-Nas</li>
+<li class="quiz-answer" data-correct="false">Surah Al-Kawthar</li>
 </ul>
 
-<p><strong>Explanation:</strong> The Prophet (peace be upon him) said that reciting Surah Al-Ikhlas is equivalent to reciting one-third of the Quran in reward.</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> The Prophet (peace be upon him) said that reciting Surah Al-Ikhlas is equivalent to reciting one-third of the Quran in reward.</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="6" style="display: none;">
 <h2>Question 6</h2>
 
 <p><strong>What do you say when rising from Ruku?</strong></p>
 
 <ul>
-<li class="quiz-answer">Subhana rabbiyal azeem</li>
-<li class="quiz-answer correct">✓ Sami'Allahu liman hamidah, then Rabbana wa lakal hamd</li>
-<li class="quiz-answer">Allahu Akbar</li>
-<li class="quiz-answer">Assalamu alaikum wa rahmatullah</li>
+<li class="quiz-answer" data-correct="false">Subhana rabbiyal azeem</li>
+<li class="quiz-answer correct" data-correct="true">Sami'Allahu liman hamidah, then Rabbana wa lakal hamd</li>
+<li class="quiz-answer" data-correct="false">Allahu Akbar</li>
+<li class="quiz-answer" data-correct="false">Assalamu alaikum wa rahmatullah</li>
 </ul>
 
-<p><strong>Explanation:</strong> When rising from Ruku, you say "Sami'Allahu liman hamidah" (Allah hears those who praise Him), then "Rabbana wa lakal hamd" (Our Lord, to You is all praise).</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> When rising from Ruku, you say "Sami'Allahu liman hamidah" (Allah hears those who praise Him), then "Rabbana wa lakal hamd" (Our Lord, to You is all praise).</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="7" style="display: none;">
 <h2>Question 7</h2>
 
 <p><strong>What is recited during the final sitting (Tashahhud) of prayer?</strong></p>
 
 <ul>
-<li class="quiz-answer">Only Surah Al-Fatiha</li>
-<li class="quiz-answer correct">✓ The testimony of faith (Shahada) and blessings on the Prophet</li>
-<li class="quiz-answer">Only blessings on the Prophet</li>
-<li class="quiz-answer">Any dua (supplication)</li>
+<li class="quiz-answer" data-correct="false">Only Surah Al-Fatiha</li>
+<li class="quiz-answer correct" data-correct="true">The testimony of faith (Shahada) and blessings on the Prophet</li>
+<li class="quiz-answer" data-correct="false">Only blessings on the Prophet</li>
+<li class="quiz-answer" data-correct="false">Any dua (supplication)</li>
 </ul>
 
-<p><strong>Explanation:</strong> The Tashahhud includes the testimony of faith (Shahada) acknowledging that there is no god but Allah and that Muhammad is His messenger, followed by blessings on the Prophet.</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> The Tashahhud includes the testimony of faith (Shahada) acknowledging that there is no god but Allah and that Muhammad is His messenger, followed by blessings on the Prophet.</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="8" style="display: none;">
 <h2>Question 8</h2>
 
 <p><strong>What is the significance of Surah Al-Falaq and An-Nas?</strong></p>
 
 <ul>
-<li class="quiz-answer">They are the longest surahs</li>
-<li class="quiz-answer correct">✓ They are known as "Al-Mu'awwidhatayn" (the two protectors) and are recited for protection</li>
-<li class="quiz-answer">They must be recited in every prayer</li>
-<li class="quiz-answer">They are only for special occasions</li>
+<li class="quiz-answer" data-correct="false">They are the longest surahs</li>
+<li class="quiz-answer correct" data-correct="true">They are known as "Al-Mu'awwidhatayn" (the two protectors) and are recited for protection</li>
+<li class="quiz-answer" data-correct="false">They must be recited in every prayer</li>
+<li class="quiz-answer" data-correct="false">They are only for special occasions</li>
 </ul>
 
-<p><strong>Explanation:</strong> These two surahs are called "Al-Mu'awwidhatayn" and are recited for seeking protection from evil. The Prophet (peace be upon him) recited them every night.</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> These two surahs are called "Al-Mu'awwidhatayn" and are recited for seeking protection from evil. The Prophet (peace be upon him) recited them every night.</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="9" style="display: none;">
 <h2>Question 9</h2>
 
 <p><strong>How do you end the prayer?</strong></p>
 
 <ul>
-<li class="quiz-answer">By saying "Allahu Akbar"</li>
-<li class="quiz-answer correct">✓ By turning your head right and left saying "Assalamu alaikum wa rahmatullah"</li>
-<li class="quiz-answer">By standing up</li>
-<li class="quiz-answer">By reciting Surah Al-Fatiha again</li>
+<li class="quiz-answer" data-correct="false">By saying "Allahu Akbar"</li>
+<li class="quiz-answer correct" data-correct="true">By turning your head right and left saying "Assalamu alaikum wa rahmatullah"</li>
+<li class="quiz-answer" data-correct="false">By standing up</li>
+<li class="quiz-answer" data-correct="false">By reciting Surah Al-Fatiha again</li>
 </ul>
 
-<p><strong>Explanation:</strong> The prayer ends with the final Salam, turning your head to the right and left, saying "Assalamu alaikum wa rahmatullah" (Peace be upon you and the mercy of Allah).</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> The prayer ends with the final Salam, turning your head to the right and left, saying "Assalamu alaikum wa rahmatullah" (Peace be upon you and the mercy of Allah).</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="10" style="display: none;">
 <h2>Question 10</h2>
 
 <p><strong>What is the meaning of "Qul huwa Allahu ahad" from Surah Al-Ikhlas?</strong></p>
 
 <ul>
-<li class="quiz-answer">Say, I seek refuge in the Lord of mankind</li>
-<li class="quiz-answer correct">✓ Say, "He is Allah, [who is] One"</li>
-<li class="quiz-answer">Say, Praise be to Allah</li>
-<li class="quiz-answer">Say, Allah is the Greatest</li>
+<li class="quiz-answer" data-correct="false">Say, I seek refuge in the Lord of mankind</li>
+<li class="quiz-answer correct" data-correct="true">Say, "He is Allah, [who is] One"</li>
+<li class="quiz-answer" data-correct="false">Say, Praise be to Allah</li>
+<li class="quiz-answer" data-correct="false">Say, Allah is the Greatest</li>
 </ul>
 
-<p><strong>Explanation:</strong> This is the opening verse of Surah Al-Ikhlas, emphasizing the absolute oneness of Allah (Tawheed).</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> This is the opening verse of Surah Al-Ikhlas, emphasizing the absolute oneness of Allah (Tawheed).</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="11" style="display: none;">
 <h2>Question 11</h2>
 
 <p><strong>What do you say during Sujud (prostration)?</strong></p>
 
 <ul>
-<li class="quiz-answer">Subhana rabbiyal azeem</li>
-<li class="quiz-answer correct">✓ Subhana rabbiyal a'la</li>
-<li class="quiz-answer">Sami'Allahu liman hamidah</li>
-<li class="quiz-answer">Rabbana wa lakal hamd</li>
+<li class="quiz-answer" data-correct="false">Subhana rabbiyal azeem</li>
+<li class="quiz-answer correct" data-correct="true">Subhana rabbiyal a'la</li>
+<li class="quiz-answer" data-correct="false">Sami'Allahu liman hamidah</li>
+<li class="quiz-answer" data-correct="false">Rabbana wa lakal hamd</li>
 </ul>
 
-<p><strong>Explanation:</strong> During prostration, you say "Subhana rabbiyal a'la" (Glory be to my Lord, the Most High) three times.</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> During prostration, you say "Subhana rabbiyal a'la" (Glory be to my Lord, the Most High) three times.</p></div>
 
 <hr>
 
 </div>
-<div class="quiz-question">
+<div class="quiz-question" data-question="12" style="display: none;">
 <h2>Question 12</h2>
 
 <p><strong>What is the significance of raising hands and saying "Allahu Akbar" at the beginning of prayer?</strong></p>
 
 <ul>
-<li class="quiz-answer">It's optional</li>
-<li class="quiz-answer correct">✓ It marks the beginning of prayer and signifies leaving worldly matters behind</li>
-<li class="quiz-answer">It's only for the first rakat</li>
-<li class="quiz-answer">It's a cultural practice</li>
+<li class="quiz-answer" data-correct="false">It's optional</li>
+<li class="quiz-answer correct" data-correct="true">It marks the beginning of prayer and signifies leaving worldly matters behind</li>
+<li class="quiz-answer" data-correct="false">It's only for the first rakat</li>
+<li class="quiz-answer" data-correct="false">It's a cultural practice</li>
 </ul>
 
-<p><strong>Explanation:</strong> The opening Takbir (Allahu Akbar) with raised hands marks the formal beginning of prayer and symbolizes entering into a state of worship, leaving worldly concerns behind.</p>
+<div class="explanation" style="display: none !important;"><p><strong>Explanation:</strong> The opening Takbir (Allahu Akbar) with raised hands marks the formal beginning of prayer and symbolizes entering into a state of worship, leaving worldly concerns behind.</p></div>
 
 
 </div>
@@ -891,41 +912,156 @@
                 button.classList.add('active');
                 document.getElementById(tabName).classList.add('active');
                 
+                // If quiz tab, show random question and ensure explanations are hidden
+                if (tabName === 'quiz') {
+                    hideAllExplanations();
+                    showRandomQuizQuestion();
+                }
+                
                 // Scroll to top
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         });
 
-        // Quiz interaction
-        document.querySelectorAll('.quiz-answer').forEach(answer => {
-            answer.addEventListener('click', function() {
-                // Remove previous selections
-                this.parentElement.querySelectorAll('.quiz-answer').forEach(a => {
+        // Quiz functionality
+        function showRandomQuizQuestion() {
+            // Hide all quiz questions
+            document.querySelectorAll('.quiz-question').forEach(q => {
+                q.style.display = 'none';
+                q.dataset.answered = 'false'; // Reset answered state
+            });
+            
+            // Hide all explanations explicitly
+            hideAllExplanations();
+            
+            // Remove all next question buttons
+            document.querySelectorAll('.next-question-btn').forEach(btn => {
+                btn.remove();
+            });
+            
+            // Reset all answer styles
+            document.querySelectorAll('.quiz-answer').forEach(a => {
+                a.style.backgroundColor = '';
+                a.style.color = '';
+                a.style.borderLeft = '';
+            });
+            
+            // Get all quiz questions
+            const questions = Array.from(document.querySelectorAll('.quiz-question'));
+            if (questions.length === 0) return;
+            
+            // Show random question
+            const randomIndex = Math.floor(Math.random() * questions.length);
+            questions[randomIndex].style.display = 'block';
+        }
+        
+        // Initialize: Hide all explanations on page load
+        function initializeQuiz() {
+            document.querySelectorAll('.explanation').forEach(e => {
+                e.style.display = 'none';
+                e.style.setProperty('display', 'none', 'important');
+            });
+        }
+        
+        // Run initialization when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeQuiz);
+        } else {
+            initializeQuiz();
+        }
+
+        // Quiz interaction - use event delegation for dynamically added content
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('quiz-answer')) {
+                const answer = e.target;
+                const questionDiv = answer.closest('.quiz-question');
+                if (!questionDiv) return;
+                
+                // Check if already answered
+                const isAnswered = questionDiv.dataset.answered === 'true';
+                if (isAnswered) return; // Don't allow re-clicking after answer is revealed
+                
+                // Mark as answered
+                questionDiv.dataset.answered = 'true';
+                
+                // Reset all answer styles in this question
+                questionDiv.querySelectorAll('.quiz-answer').forEach(a => {
                     a.style.backgroundColor = '';
                     a.style.color = '';
                     a.style.borderLeft = '';
                 });
                 
+                // Check if correct
+                const isCorrect = answer.dataset.correct === 'true';
+                
                 // Highlight clicked answer
-                if (this.classList.contains('correct')) {
-                    this.style.backgroundColor = '#1e3a28';
-                    this.style.color = '#4ade80';
-                    this.style.borderLeft = '3px solid #22c55e';
+                if (isCorrect) {
+                    answer.style.backgroundColor = '#1e3a28';
+                    answer.style.color = '#4ade80';
+                    answer.style.borderLeft = '3px solid #22c55e';
                 } else {
-                    this.style.backgroundColor = '#3a1e1e';
-                    this.style.color = '#f87171';
-                    this.style.borderLeft = '3px solid #ef4444';
+                    answer.style.backgroundColor = '#3a1e1e';
+                    answer.style.color = '#f87171';
+                    answer.style.borderLeft = '3px solid #ef4444';
                     
                     // Show correct answer
-                    const correctAnswer = this.parentElement.querySelector('.quiz-answer.correct');
+                    const correctAnswer = questionDiv.querySelector('.quiz-answer.correct');
                     if (correctAnswer) {
                         correctAnswer.style.backgroundColor = '#1e3a28';
                         correctAnswer.style.color = '#4ade80';
                         correctAnswer.style.borderLeft = '3px solid #22c55e';
                     }
                 }
-            });
+                
+                // Show explanation after any answer attempt
+                const explanation = questionDiv.querySelector('.explanation');
+                if (explanation) {
+                    // Force show the explanation by removing the important none and setting block
+                    explanation.style.removeProperty('display');
+                    explanation.style.display = 'block';
+                    explanation.style.setProperty('display', 'block', 'important');
+                }
+                
+                // Add "Next Question" button (for both correct and incorrect answers)
+                const existingBtn = questionDiv.querySelector('.next-question-btn');
+                if (!existingBtn) {
+                    const nextBtn = document.createElement('button');
+                    nextBtn.className = 'next-question-btn';
+                    nextBtn.textContent = 'Next Question →';
+                    nextBtn.style.display = 'block';
+                    nextBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showRandomQuizQuestion();
+                    });
+                    questionDiv.appendChild(nextBtn);
+                } else {
+                    // Make sure existing button is visible
+                    existingBtn.style.display = 'block';
+                }
+            }
         });
+        
+        // Function to hide all explanations
+        function hideAllExplanations() {
+            document.querySelectorAll('.explanation').forEach(e => {
+                e.style.setProperty('display', 'none', 'important');
+            });
+        }
+        
+        // Run initialization when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                hideAllExplanations();
+            });
+        } else {
+            hideAllExplanations();
+        }
+        
+        // Show random question on page load if quiz tab is active
+        if (document.getElementById('quiz').classList.contains('active')) {
+            showRandomQuizQuestion();
+        }
 
         // Format Arabic text better
         document.querySelectorAll('p').forEach(p => {
