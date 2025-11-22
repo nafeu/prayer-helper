@@ -86,86 +86,52 @@ After editing any markdown file, run `npm run build` to regenerate `index.html`.
 
 ## Deploying to GitHub Pages
 
-### Option 1: Deploy to `nafeu.com/prayer-helper`
+### Simple Setup: Serve from Main Branch
 
 1. **Build the app:**
    ```bash
    npm run build
    ```
 
-2. **Commit and push to GitHub:**
+2. **Commit and push `index.html` to GitHub:**
    ```bash
-   git add .
+   git add index.html
    git commit -m "Build prayer-helper app"
    git push origin main
    ```
 
-3. **Set up GitHub Pages:**
+3. **Configure GitHub Pages:**
    - Go to your repository on GitHub
-   - Navigate to Settings → Pages
-   - Under "Source", select "Deploy from a branch"
-   - Choose "main" branch and "/ (root)" folder
-   - Click Save
+   - Navigate to **Settings** → **Pages**
+   - Under **Source**, select:
+     - **Deploy from a branch**
+     - Branch: **main**
+     - Folder: **/ (root)**
+   - Click **Save**
 
-4. **Configure for custom domain subdirectory:**
-   Since you want to deploy to `nafeu.com/prayer-helper`, you have two options:
+4. **Access your app:**
+   - Your app will be available at: `https://nafeu.github.io/prayer-helper`
+   - If your custom domain is configured, it will also be at: `https://nafeu.com/prayer-helper`
 
-   **Option A: Use a separate branch for the subdirectory**
-   - Create a new branch called `gh-pages`
-   - In that branch, create a `prayer-helper` folder
-   - Copy `index.html` to `prayer-helper/index.html`
-   - Configure GitHub Pages to deploy from the `gh-pages` branch
-   - Update your custom domain settings if needed
+### Deployment Workflow
 
-   **Option B: Use GitHub Actions (Recommended)**
-   - Create `.github/workflows/deploy.yml` (see below)
-   - This will automatically build and deploy to the `gh-pages` branch
+After the initial setup, whenever you update content:
 
-### Option 2: GitHub Actions Workflow (Automated)
-
-Create `.github/workflows/deploy.yml`:
-
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      
-      - name: Build
-        run: npm run build
-      
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
-          destination_dir: prayer-helper
-```
-
-This workflow will:
-- Build the app on every push to main
-- Deploy to the `gh-pages` branch
-- Make it available at `nafeu.github.io/prayer-helper`
+1. Edit the markdown files in `content/`
+2. Build: `npm run build`
+3. Commit and push: `git add index.html && git commit -m "Update content" && git push origin main`
+4. GitHub Pages will automatically serve the updated `index.html` from the main branch
 
 ### Custom Domain Configuration
 
 If `nafeu.com` is already configured with GitHub Pages:
-- The app will be available at `nafeu.com/prayer-helper` once deployed
-- Make sure your `CNAME` file (if any) is configured correctly
-- GitHub Pages will automatically serve the content from the `prayer-helper` subdirectory
+- The app will be available at `nafeu.com/prayer-helper` once GitHub Pages is enabled
+- Make sure your `CNAME` file (if any) is configured correctly in your repository root
+- GitHub Pages will serve the content from the root of your main branch
+
+**Note:** Since you want the app at `nafeu.com/prayer-helper` (a subdirectory), you'll need to either:
+- Set up the repository as a subdirectory in your main GitHub Pages site, or
+- Use a different deployment method if you need the subdirectory structure
 
 ## Notes
 

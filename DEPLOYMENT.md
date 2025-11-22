@@ -1,145 +1,156 @@
 # GitHub Pages Deployment Guide
 
-This guide explains how to deploy the Prayer Helper app to GitHub Pages using GitHub Actions, making it available at `nafeu.com/prayer-helper`.
+This guide explains how to deploy the Prayer Helper app to GitHub Pages by serving `index.html` directly from the `main` branch.
 
 ## How It Works
 
-The GitHub Actions workflow (`.github/workflows/deploy.yml`) automatically:
-1. Builds the app when you push to the `main` branch
-2. Deploys the built `index.html` to the `gh-pages` branch
-3. Places it in the `prayer-helper` subdirectory for your custom domain
+GitHub Pages will serve the `index.html` file from the root of your `main` branch. This is the simplest setup - no separate deployment branch or build automation needed.
 
 ## Step-by-Step Setup
 
-### 1. Ensure Your Repository is on GitHub
+### 1. Build the App Locally
 
-Make sure your `prayer-helper` repository is pushed to GitHub:
+First, build the app to generate `index.html`:
+
 ```bash
-git remote -v  # Check if you have a remote
-# If not, add one:
-git remote add origin https://github.com/nafeu/prayer-helper.git
-git push -u origin main
+npm run build
 ```
 
-### 2. Enable GitHub Pages
+This creates `index.html` in the root directory.
+
+### 2. Commit and Push to GitHub
+
+Make sure `index.html` is committed and pushed to your `main` branch:
+
+```bash
+# Check if index.html exists and is tracked
+git status
+
+# If index.html is not tracked, add it
+git add index.html
+git commit -m "Add built index.html"
+git push origin main
+```
+
+**Important:** Make sure `index.html` is committed to your repository. You may want to remove it from `.gitignore` if it's currently ignored.
+
+### 3. Enable GitHub Pages
 
 1. Go to your repository on GitHub: `https://github.com/nafeu/prayer-helper`
 2. Click on **Settings** (top menu)
 3. Scroll down to **Pages** in the left sidebar
 4. Under **Source**, select:
    - **Deploy from a branch**
-   - Branch: `gh-pages`
-   - Folder: `/ (root)`
+   - Branch: **main**
+   - Folder: **/ (root)**
 5. Click **Save**
 
-### 3. Configure GitHub Actions Permissions
+### 4. Access Your App
 
-GitHub Actions needs permission to write to the repository:
+After a few moments (GitHub Pages can take 1-2 minutes to update), your app will be available at:
+- `https://nafeu.github.io/prayer-helper`
 
-1. In the same **Settings** page, go to **Actions** → **General**
-2. Scroll down to **Workflow permissions**
-3. Select **Read and write permissions**
-4. Check **Allow GitHub Actions to create and approve pull requests** (optional, but recommended)
-5. Click **Save**
+If your custom domain `nafeu.com` is configured with GitHub Pages, it will also be available at:
+- `https://nafeu.com/prayer-helper`
 
-### 4. Push Your Code
+## Updating Your App
 
-The workflow file (`.github/workflows/deploy.yml`) is already in your repository. Simply push your code:
+Whenever you make changes:
 
-```bash
-git add .
-git commit -m "Add GitHub Actions workflow for deployment"
-git push origin main
-```
+1. **Edit the markdown files** in the `content/` directory
+2. **Rebuild the app:**
+   ```bash
+   npm run build
+   ```
+3. **Commit and push the updated `index.html`:**
+   ```bash
+   git add index.html
+   git commit -m "Update prayer helper content"
+   git push origin main
+   ```
+4. **Wait 1-2 minutes** for GitHub Pages to update
 
-### 5. Monitor the Deployment
+## Custom Domain Setup
 
-1. Go to your repository on GitHub
-2. Click on the **Actions** tab
-3. You should see a workflow run called "Deploy to GitHub Pages"
-4. Click on it to see the build progress
-5. Wait for it to complete (usually takes 1-2 minutes)
+### If `nafeu.com` is already your main GitHub Pages site:
 
-### 6. Access Your App
+If `nafeu.com` is already configured to serve from another repository (like `nafeu.github.io`), you have a few options:
 
-Once the workflow completes successfully:
-- The app will be available at: `https://nafeu.github.io/prayer-helper`
-- If your custom domain is configured, it will also be at: `https://nafeu.com/prayer-helper`
+**Option A: Serve from subdirectory in main repo**
+- If your main site is in a different repo, you could add this as a subdirectory there
+- Create a `prayer-helper` folder in that repo
+- Copy `index.html` to `prayer-helper/index.html` in that repo
 
-## How the Workflow Works
+**Option B: Use a separate subdomain**
+- Set up `prayer-helper.nafeu.com` as a subdomain
+- Point it to this repository's GitHub Pages
 
-The workflow file (`.github/workflows/deploy.yml`) does the following:
+**Option C: Serve from this repo's root**
+- Access it at `https://nafeu.github.io/prayer-helper` (without custom domain)
 
-```yaml
-1. Triggers on every push to the `main` branch
-2. Checks out your code
-3. Sets up Node.js
-4. Runs `npm run build` to generate index.html
-5. Deploys to the `gh-pages` branch in the `prayer-helper` subdirectory
-```
+### Setting up a custom domain for this repository:
 
-The `destination_dir: prayer-helper` setting ensures the files are placed in a subdirectory, which is necessary for your custom domain setup.
-
-## Custom Domain Configuration
-
-If `nafeu.com` is already configured with GitHub Pages:
-
-1. The workflow will deploy to `gh-pages` branch
-2. GitHub Pages will serve it from the `prayer-helper` subdirectory
-3. Your custom domain will automatically serve it at `nafeu.com/prayer-helper`
-
-If you need to configure the custom domain:
 1. In repository **Settings** → **Pages**
-2. Add your custom domain under **Custom domain**
-2. Follow GitHub's instructions to add DNS records if needed
+2. Under **Custom domain**, enter your domain (e.g., `prayer-helper.nafeu.com`)
+3. Follow GitHub's instructions to add DNS records:
+   - Add a CNAME record pointing to `nafeu.github.io`
+   - Or add A records for GitHub Pages IP addresses
+4. GitHub will create a `CNAME` file in your repository
 
-## Automatic Deployments
+## Important Notes
 
-After the initial setup, every time you:
-- Push to the `main` branch
-- Merge a pull request to `main`
+### Committing `index.html`
 
-The workflow will automatically:
-1. Build the latest version
-2. Deploy it to GitHub Pages
-3. Your site will be updated within 1-2 minutes
+Since we're serving directly from the main branch, you need to commit `index.html`:
+
+1. **Remove from `.gitignore`** if it's currently ignored:
+   ```bash
+   # Edit .gitignore and remove or comment out the index.html line
+   ```
+
+2. **Add and commit:**
+   ```bash
+   git add index.html
+   git commit -m "Add built index.html"
+   ```
+
+### Build Before Committing
+
+Always run `npm run build` before committing to ensure `index.html` is up to date with your latest markdown changes.
 
 ## Troubleshooting
 
-### Workflow Fails to Run
+### Site Shows 404 Error
 
-- Check that the workflow file is in `.github/workflows/deploy.yml`
-- Ensure GitHub Actions is enabled in repository settings
-- Check the Actions tab for error messages
-
-### Site Not Updating
-
-- Wait a few minutes (GitHub Pages can take 1-2 minutes to update)
+- Wait 1-2 minutes after enabling GitHub Pages (it takes time to propagate)
+- Verify GitHub Pages is enabled in Settings → Pages
+- Check that `index.html` exists in the root of your `main` branch
 - Clear your browser cache
-- Check the Actions tab to ensure the workflow completed successfully
 
-### 404 Error
+### Changes Not Appearing
 
-- Ensure GitHub Pages is enabled and pointing to the `gh-pages` branch
-- Check that the `destination_dir: prayer-helper` is correct
-- Verify your custom domain DNS settings if using `nafeu.com`
+- Make sure you ran `npm run build` after editing markdown files
+- Verify `index.html` was committed and pushed to the `main` branch
+- Wait 1-2 minutes for GitHub Pages to update
+- Hard refresh your browser (Ctrl+F5 or Cmd+Shift+R)
+
+### Custom Domain Not Working
+
+- Check DNS settings (CNAME or A records)
+- Verify the `CNAME` file exists in your repository root
+- Wait up to 24 hours for DNS propagation
+- Check GitHub Pages settings show your custom domain
 
 ### Build Errors
 
-- Check the Actions tab for specific error messages
-- Ensure `package.json` has the build script: `"build": "node build.js"`
-- Verify all markdown files exist in the `content/` directory
+- Ensure Node.js is installed: `node --version`
+- Check that all markdown files exist in `content/` directory
+- Review error messages from `npm run build`
 
-## Manual Deployment (Alternative)
+## Workflow Summary
 
-If you prefer to deploy manually instead of using GitHub Actions:
+```
+Edit markdown files → npm run build → git add index.html → git commit → git push → Wait 1-2 min → Site updated!
+```
 
-1. Build locally: `npm run build`
-2. Create/checkout `gh-pages` branch: `git checkout -b gh-pages`
-3. Create `prayer-helper` directory: `mkdir -p prayer-helper`
-4. Copy `index.html`: `cp index.html prayer-helper/`
-5. Commit and push: `git add . && git commit -m "Deploy" && git push origin gh-pages`
-6. Switch back to main: `git checkout main`
-
-However, the GitHub Actions workflow is recommended as it automates this process.
-
+This simple workflow means you have full control over when updates are deployed, and you can see exactly what's being served by checking the `index.html` file in your repository.
