@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prayer Helper - Your Guide to Salat</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕌</text></svg>">
     <style>
         * {
             margin: 0;
@@ -14,8 +15,8 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
+            color: #e0e0e0;
+            background-color: #121212;
             padding-bottom: 80px;
         }
 
@@ -23,14 +24,14 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #1e1e1e;
             min-height: 100vh;
         }
 
         header {
             text-align: center;
             padding: 20px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
             color: white;
             margin: -20px -20px 20px -20px;
             padding: 30px 20px;
@@ -63,23 +64,23 @@
             flex: 1;
             min-width: 120px;
             padding: 12px 16px;
-            background-color: #e0e0e0;
+            background-color: #2d2d2d;
             border: none;
             border-radius: 8px 8px 0 0;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            color: #666;
+            color: #b0b0b0;
             transition: all 0.3s;
             white-space: nowrap;
         }
 
         .tab-button:hover {
-            background-color: #d0d0d0;
+            background-color: #3a3a3a;
         }
 
         .tab-button.active {
-            background-color: #667eea;
+            background-color: #4a5568;
             color: white;
         }
 
@@ -98,21 +99,21 @@
         }
 
         h1 {
-            color: #667eea;
+            color: #9bb5ff;
             margin: 20px 0 15px 0;
             font-size: 24px;
         }
 
         h2 {
-            color: #764ba2;
+            color: #b8a5d9;
             margin: 25px 0 15px 0;
             font-size: 20px;
-            border-bottom: 2px solid #e0e0e0;
+            border-bottom: 2px solid #3a3a3a;
             padding-bottom: 8px;
         }
 
         h3 {
-            color: #555;
+            color: #c0c0c0;
             margin: 20px 0 10px 0;
             font-size: 18px;
         }
@@ -123,12 +124,13 @@
         }
 
         strong {
-            color: #667eea;
+            color: #9bb5ff;
             font-weight: 600;
         }
 
         code {
-            background-color: #f4f4f4;
+            background-color: #2d2d2d;
+            color: #e0e0e0;
             padding: 2px 6px;
             border-radius: 3px;
             font-family: 'Courier New', monospace;
@@ -147,7 +149,7 @@
 
         hr {
             border: none;
-            border-top: 2px solid #e0e0e0;
+            border-top: 2px solid #3a3a3a;
             margin: 25px 0;
         }
 
@@ -161,7 +163,7 @@
         }
 
         thead {
-            background-color: #667eea;
+            background-color: #4a5568;
             color: white;
         }
 
@@ -173,23 +175,23 @@
 
         td {
             padding: 10px 8px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #3a3a3a;
         }
 
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #252525;
         }
 
         tr:hover {
-            background-color: #f0f0f0;
+            background-color: #2d2d2d;
         }
 
         .step-section {
-            background-color: #f9f9f9;
+            background-color: #252525;
             padding: 15px;
             border-radius: 8px;
             margin: 20px 0;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #9bb5ff;
         }
 
         .arabic-text {
@@ -199,34 +201,34 @@
             text-align: right;
             margin: 10px 0;
             line-height: 2;
-            color: #333;
+            color: #e0e0e0;
         }
 
         .transliteration {
             font-style: italic;
-            color: #666;
+            color: #b0b0b0;
             margin: 8px 0;
         }
 
         .translation {
-            color: #555;
+            color: #c0c0c0;
             margin: 8px 0;
         }
 
         .why-section {
-            background-color: #e8f4f8;
+            background-color: #1a2a35;
             padding: 12px;
             border-radius: 6px;
             margin-top: 10px;
-            border-left: 3px solid #4a90e2;
+            border-left: 3px solid #5ba3e8;
         }
 
         .why-section strong {
-            color: #4a90e2;
+            color: #5ba3e8;
         }
 
         .quiz-question {
-            background-color: #fff9e6;
+            background-color: #2a2518;
             padding: 15px;
             border-radius: 8px;
             margin: 20px 0;
@@ -237,33 +239,33 @@
             list-style: none;
             padding: 10px;
             margin: 8px 0;
-            background-color: #f5f5f5;
+            background-color: #2d2d2d;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.2s;
         }
 
         .quiz-answer:hover {
-            background-color: #e8e8e8;
+            background-color: #3a3a3a;
         }
 
         .quiz-answer.correct {
-            background-color: #d4edda;
-            color: #155724;
-            border-left: 3px solid #28a745;
+            background-color: #1e3a28;
+            color: #4ade80;
+            border-left: 3px solid #22c55e;
         }
 
         .explanation {
-            background-color: #e8f5e9;
+            background-color: #1a2a1f;
             padding: 12px;
             border-radius: 6px;
             margin-top: 10px;
-            border-left: 3px solid #4caf50;
+            border-left: 3px solid #4ade80;
             font-size: 14px;
         }
 
         .explanation strong {
-            color: #2e7d32;
+            color: #4ade80;
         }
 
         @media (max-width: 600px) {
@@ -906,20 +908,20 @@
                 
                 // Highlight clicked answer
                 if (this.classList.contains('correct')) {
-                    this.style.backgroundColor = '#d4edda';
-                    this.style.color = '#155724';
-                    this.style.borderLeft = '3px solid #28a745';
+                    this.style.backgroundColor = '#1e3a28';
+                    this.style.color = '#4ade80';
+                    this.style.borderLeft = '3px solid #22c55e';
                 } else {
-                    this.style.backgroundColor = '#f8d7da';
-                    this.style.color = '#721c24';
-                    this.style.borderLeft = '3px solid #dc3545';
+                    this.style.backgroundColor = '#3a1e1e';
+                    this.style.color = '#f87171';
+                    this.style.borderLeft = '3px solid #ef4444';
                     
                     // Show correct answer
                     const correctAnswer = this.parentElement.querySelector('.quiz-answer.correct');
                     if (correctAnswer) {
-                        correctAnswer.style.backgroundColor = '#d4edda';
-                        correctAnswer.style.color = '#155724';
-                        correctAnswer.style.borderLeft = '3px solid #28a745';
+                        correctAnswer.style.backgroundColor = '#1e3a28';
+                        correctAnswer.style.color = '#4ade80';
+                        correctAnswer.style.borderLeft = '3px solid #22c55e';
                     }
                 }
             });
