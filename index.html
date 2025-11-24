@@ -1261,7 +1261,34 @@
             
             // Show random question
             const randomIndex = Math.floor(Math.random() * questions.length);
-            questions[randomIndex].style.display = 'block';
+            const selectedQuestion = questions[randomIndex];
+            selectedQuestion.style.display = 'block';
+            
+            // Shuffle the answer options for this question
+            shuffleAnswers(selectedQuestion);
+        }
+        
+        // Function to shuffle answer options
+        function shuffleAnswers(questionDiv) {
+            // Find the ul containing the answers
+            const answerList = questionDiv.querySelector('ul');
+            if (!answerList) return;
+            
+            // Get all answer list items
+            const answers = Array.from(answerList.querySelectorAll('.quiz-answer'));
+            if (answers.length === 0) return;
+            
+            // Shuffle the array using Fisher-Yates algorithm
+            for (let i = answers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [answers[i], answers[j]] = [answers[j], answers[i]];
+            }
+            
+            // Clear the list and re-append in shuffled order
+            answerList.innerHTML = '';
+            answers.forEach(answer => {
+                answerList.appendChild(answer);
+            });
         }
         
         // Initialize: Hide all explanations on page load
